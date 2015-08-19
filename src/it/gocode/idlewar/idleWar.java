@@ -15,9 +15,11 @@ import it.gocode.idlewar.data.gameData;
 import it.gocode.idlewar.exceptions.noNameProvidedException;
 import it.gocode.idlewar.listeners.gameKeyListener;
 import it.gocode.idlewar.listeners.gameMouseListener;
+import it.gocode.idlewar.units.Unit;
 /***
  * 
  * @author Sepehr
+ * @version 0.0.1
  *
  *
  * TODO LIST 
@@ -28,7 +30,8 @@ import it.gocode.idlewar.listeners.gameMouseListener;
  */
 /*REAL TODO LIST
  * Make the map auto-generate with trees.
- * Textures for grass, with semi-transparent sides.
+ * Textures for different types of ground, with semi-transparent sides.
+ * 
  * 
  */
 public class idleWar {
@@ -100,6 +103,11 @@ public class idleWar {
 		for(Building b : currgd.buildings){
 			if(b.Tickable()){
 				b.Tick();
+			}
+		}
+		for(Unit u : currgd.units){
+			if(u.Tickable()){
+				u.Tick();
 			}
 		}
 	}
