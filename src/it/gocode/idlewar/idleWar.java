@@ -38,7 +38,7 @@ public class idleWar {
 	
 	int fps=0; long lastFPSCheck=System.currentTimeMillis();
 	int ticks=0; long lastTickCheck=System.currentTimeMillis();
-	public int desiredFPS = 60,desiredTicks=40;
+	public int desiredFPS = 60,desiredTicks=20;
 	
 	public idleWar(){
 		mouseListener = new gameMouseListener();
