@@ -1,5 +1,6 @@
 package it.gocode.idlewar;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -16,6 +17,7 @@ public class gameFrame extends JFrame{
 		addMouseMotionListener(theGame.mouseListener);
 		addKeyListener(theGame.keyListener);
 		add(new gamePanel(theGame));
+		setMinimumSize(new Dimension(600,600));
 		setSize(800,600);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);

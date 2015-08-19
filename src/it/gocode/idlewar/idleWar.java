@@ -24,6 +24,12 @@ import it.gocode.idlewar.listeners.gameMouseListener;
  * Tap that, for max
  * Make Secrets
  * 
+ *
+ */
+/*REAL TODO LIST
+ * Make the map auto-generate with trees.
+ * Textures for grass, with semi-transparent sides.
+ * 
  */
 public class idleWar {
 	public static idleWar theGame;
