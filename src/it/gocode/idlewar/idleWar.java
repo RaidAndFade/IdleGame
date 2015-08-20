@@ -89,7 +89,6 @@ public class idleWar {
 						lastFPSCheck=System.currentTimeMillis();
 					}
 					fps++;
-					try {Thread.sleep(1000/desiredFPS);} catch (InterruptedException e) {}
 					while(!rendered){
 						try {Thread.sleep(1000/desiredFPS);} catch (InterruptedException e) {}
 					}

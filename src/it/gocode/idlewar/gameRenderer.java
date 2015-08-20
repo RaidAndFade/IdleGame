@@ -1,6 +1,7 @@
 package it.gocode.idlewar;
 
 import it.gocode.idlewar.data.Location;
+import it.gocode.idlewar.debris.Debris;
 import it.gocode.idlewar.ground.Ground;
 
 import java.awt.Color;
@@ -16,6 +17,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map.Entry;
 import java.util.Random;
+import java.util.Set;
 
 import javax.imageio.ImageIO;
 
@@ -26,13 +28,16 @@ public class gameRenderer {
 	}
 	int i=0;
 	public void drawGame(Graphics g) {
-		Graphics2D g2 = (Graphics2D) g;
-		
+		Graphics2D g2 = (Graphics2D) g;AffineTransform oldTransform = g2.getTransform();
+		int zoom = 2;g2.scale(zoom, zoom);
+		if(true){
 		int xoff=theGame.gframe.WIDTH,yoff=(int) (theGame.gframe.HEIGHT);
         RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 		rh.put(RenderingHints.KEY_RENDERING,RenderingHints.VALUE_RENDER_QUALITY);
 		g2.setRenderingHints(rh);
-		for(Entry<Location,Ground> ge : theGame.currgd.map.ground.entrySet()){
+		Set<Entry<Location, Ground>> groundSet = theGame.currgd.map.ground.entrySet();
+		Set<Entry<Location, Debris>> debrisSet = theGame.currgd.map.debris.entrySet();
+		for(Entry<Location,Ground> ge : groundSet){
 			Ground gr = ge.getValue();Location l = ge.getKey();
 			int xr,yr;
 			switch(gr.subType){
@@ -41,11 +46,17 @@ public class gameRenderer {
 			case 2: xr=100;yr=200;break;
 			case 3: xr=200;yr=200;break;
 			}
-			int x=l.getX()*20-xoff/2,y=l.getY()*20-yoff/2;
-			g2.drawImage(theGame.imageLoader.getImage("ground",gr.type,gr.variation), x, y, x+20, y+20, xr-50, yr-50, xr, yr, null);
+			int x=l.getX()*10-xoff/2,y=l.getY()*10-yoff/2;
+			if(x<theGame.gframe.WIDTH/zoom&&y<theGame.gframe.HEIGHT/zoom)
+			g2.drawImage(theGame.imageLoader.getImage("ground",gr.type,gr.variation), x, y, x+10, y+10, xr-50, yr-50, xr, yr, null);
 		}
-		
-		
+		for(Entry<Location,Debris> de : debrisSet){
+			Debris d = de.getValue();Location l = de.getKey();
+			int x=l.getX()*10-xoff/2,y=l.getY()*10-yoff/2;
+			g2.drawImage(theGame.imageLoader.getImage("debris",(d.isFancy()?"f":"")+d.getObjName(),d.getVariation()), x, y, x+20, y+20, 0, 0, 50, 50, null);
+		}
+		}
+		g2.setTransform(oldTransform );
         if(idleWar.showStats){
     		renderDebug(g2);
         }
@@ -53,14 +64,16 @@ public class gameRenderer {
         theGame.rendered=true;
 	}
 	private void renderDebug(Graphics2D g2) {
-		Font f = new Font(Font.SANS_SERIF,Font.PLAIN,12);    
+		Font f = new Font(Font.SANS_SERIF,Font.PLAIN,15);    
 		g2.setFont(f);
-        g2.setColor(Color.black);
+        g2.setColor(Color.white);
 		AffineTransform affinetransform = new AffineTransform(); 
 		FontRenderContext frc = new FontRenderContext(affinetransform,true,true);
     	String fpsCount = "Current FPS : " + idleWar.curFPS;
     	String tickCount = "Current Ticks : " + idleWar.curTicks;
     	g2.drawString(fpsCount, (int) (theGame.gframe.getWidth()-20-f.getStringBounds(fpsCount, frc).getWidth()), 15);
     	g2.drawString(tickCount, (int) (theGame.gframe.getWidth()-20-f.getStringBounds(tickCount, frc).getWidth()), 30);
+
 	}
+	
 }
