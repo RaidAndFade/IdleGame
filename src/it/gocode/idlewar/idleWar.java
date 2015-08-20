@@ -1,13 +1,6 @@
 package it.gocode.idlewar;
 
-import java.awt.event.KeyListener;
-import java.awt.event.MouseMotionListener;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Map.Entry;
-
-import javax.swing.JFrame;
-import javax.swing.JTextField;
 
 import it.gocode.idlewar.buildings.Building;
 import it.gocode.idlewar.data.Location;
@@ -15,7 +8,6 @@ import it.gocode.idlewar.data.Player;
 import it.gocode.idlewar.data.gameData;
 import it.gocode.idlewar.data.gameMap;
 import it.gocode.idlewar.exceptions.noNameProvidedException;
-import it.gocode.idlewar.ground.Ground;
 import it.gocode.idlewar.images.gameImagePreloader;
 import it.gocode.idlewar.listeners.gameKeyListener;
 import it.gocode.idlewar.listeners.gameMouseListener;
@@ -43,8 +35,7 @@ public class idleWar {
 	public static double curFPS, curTicks;
 	public static boolean running=false;
 	public static boolean showStats=true;
-	public gameFrame gframe;
-	public gameRenderer grenderer;
+	public gameWindow gWindow;
 	public gameData currgd;
 	public gameMouseListener mouseListener;
 	public gameKeyListener keyListener;
@@ -58,8 +49,7 @@ public class idleWar {
 	public idleWar(){
 		mouseListener = new gameMouseListener();
 		keyListener = new gameKeyListener();
-		grenderer = new gameRenderer(this);
-		gframe = new gameFrame(this);
+		gWindow = new gameWindow(this);
 		imageLoader = new gameImagePreloader(this);
 		idleWar.theGame = this;
 		this.newGame();
@@ -74,27 +64,11 @@ public class idleWar {
 			e.printStackTrace();
 		}
 		currgd = new gameData(2,new gameMap("New Game"),players);
-		currgd.map.genMap(gframe.getWidth(), gframe.getHeight());
+		//currgd.map.genMap(gframe.getWidth(), gframe.getHeight());
 		running=true;
 	}
 
 	public void gameLoop(){
-		new Thread("Renderer"){
-			public void run(){
-				while(running){
-					rendered=false;
-					gframe.repaint();
-					if(System.currentTimeMillis()-lastFPSCheck>=1000){
-						curFPS=fps;fps=0;
-						lastFPSCheck=System.currentTimeMillis();
-					}
-					fps++;
-					while(!rendered){
-						try {Thread.sleep(1000/desiredFPS);} catch (InterruptedException e) {}
-					}
-				}
-			}
-		}.start();
 		new Thread("GameTick"){
 			public void run(){
 				while(running){

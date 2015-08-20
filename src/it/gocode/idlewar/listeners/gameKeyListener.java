@@ -2,23 +2,24 @@ package it.gocode.idlewar.listeners;
 
 import it.gocode.idlewar.idleWar;
 
+import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.opengl.GL11.GL_TRUE;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class gameKeyListener implements KeyListener {
+import org.lwjgl.glfw.GLFWKeyCallback;
 
-	public void keyPressed(KeyEvent e) {
-		if(e.getKeyCode()==KeyEvent.VK_F3){
-			idleWar.showStats=!idleWar.showStats;
+public class gameKeyListener extends GLFWKeyCallback  {
+
+
+	@Override
+	public void invoke(long window, int key, int scancode, int action, int mods) {
+		if(window==idleWar.theGame.gWindow.mainWindow){
+	        if (key == GLFW_KEY_F3 && action == GLFW_PRESS) {
+	        	idleWar.showStats=!idleWar.showStats;
+	        }
 		}
-	}
-
-	public void keyReleased(KeyEvent e) {
-		
-	}
-
-	public void keyTyped(KeyEvent e) {
-
 	}
 
 }
