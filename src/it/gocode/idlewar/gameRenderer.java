@@ -28,7 +28,7 @@ public class gameRenderer {
 	public void drawGame(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		
-		int xoff=(int) (theGame.gframe.getWidth()/1.5-theGame.gframe.getMinimumSize().width),yoff=(int) (theGame.gframe.getHeight()-theGame.gframe.getMinimumSize().height);
+		int xoff=theGame.gframe.WIDTH,yoff=(int) (theGame.gframe.HEIGHT);
         RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 		rh.put(RenderingHints.KEY_RENDERING,RenderingHints.VALUE_RENDER_QUALITY);
 		g2.setRenderingHints(rh);
@@ -41,7 +41,7 @@ public class gameRenderer {
 			case 2: xr=100;yr=200;break;
 			case 3: xr=200;yr=200;break;
 			}
-			int x=l.getX()*20+xoff,y=l.getY()*20+yoff;
+			int x=l.getX()*20-xoff/2,y=l.getY()*20-yoff/2;
 			g2.drawImage(theGame.imageLoader.getImage("ground",gr.type,gr.variation), x, y, x+20, y+20, xr-50, yr-50, xr, yr, null);
 		}
 		
