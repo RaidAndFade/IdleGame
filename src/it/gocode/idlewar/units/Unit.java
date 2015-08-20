@@ -1,6 +1,6 @@
 package it.gocode.idlewar.units;
 
-import it.gocode.idlewar.Ticking;
+import it.gocode.idlewar.interfaces.Ticking;
 
 public class Unit implements Ticking{
 
