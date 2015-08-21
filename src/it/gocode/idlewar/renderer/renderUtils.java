@@ -1,5 +1,6 @@
 package it.gocode.idlewar.renderer;
 
+import it.gocode.idlewar.idleWar;
 import it.gocode.idlewar.images.Texture;
 
 import java.nio.ByteBuffer;
@@ -24,17 +25,43 @@ public class renderUtils {
 		GL11.glVertex2f(x,y+h);
 		GL11.glEnd();
 	}
-	private static void drawTRECT(int x, int y, int w, int h, int i) {		
+	public static void drawTRECT(int x, int y, int w, int h, Texture t) {		
+		t.bind();
 		GL11.glBegin(GL11.GL_QUADS);
 		GL11.glTexCoord2f(0f, 0f);
 		GL11.glVertex2f(x,y);
-		GL11.glTexCoord2f(1f, 0f);
+		GL11.glTexCoord2f(1, 0f);
 		GL11.glVertex2f(x+w,y);
-		GL11.glTexCoord2f(1f, 1f);
+		GL11.glTexCoord2f(1, 1);
 		GL11.glVertex2f(x+w,y+h);
-		GL11.glTexCoord2f(0f, 1f);
+		GL11.glTexCoord2f(0f, 1);
 		GL11.glVertex2f(x,y+h);
 		GL11.glEnd();
+		System.out.println(idleWar.curFPS);
+	}
+	public static void drawQTRECT(int x, int y, int w, int h, Texture t,int q) {
+		t.bind();
+		float tw=0.4f,th=0.4f,tx,ty;
+		
+		switch(q){
+		default : tx=0;ty=0;break;
+		case 1 : tx=0.5f;ty=0.5f;break;
+		case 2 : tx=0f;ty=0.5f;break;
+		case 3 : tx=0.5f;ty=0f;break;
+		}
+		GL11.glPushMatrix();
+		GL11.glBegin(GL11.GL_QUADS);
+		GL11.glTexCoord2f(tx, ty);
+		GL11.glVertex2f(x,y);
+		GL11.glTexCoord2f(tx+tw, ty);
+		GL11.glVertex2f(x+w,y);
+		GL11.glTexCoord2f(tx+tw, ty+th);
+		GL11.glVertex2f(x+w,y+h);
+		GL11.glTexCoord2f(tx, ty+th);
+		GL11.glVertex2f(x,y+h);
+		GL11.glEnd();
+		GL11.glPopMatrix();
+		System.out.println(idleWar.curFPS);
 	}
 	/**
 	 * Draws a Square on an opengl display
@@ -47,8 +74,11 @@ public class renderUtils {
 	}
 	
 	public static void drawTSQ(int x, int y, int l,Texture t){
-		t.bind();
-		drawTRECT(x,y,l,l,1);
+		drawTRECT(x,y,l,l,t);
+	}
+
+	public static void drawQTSQ(int x, int y, int l, Texture t, int q) {
+		drawQTRECT(x,y,l,l,t,q);
 	}
 
 }

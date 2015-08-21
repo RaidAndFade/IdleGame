@@ -23,7 +23,7 @@ public class gameWindow {
 	public long mainWindow;
 	public GLContext glc;
 	private GLFWErrorCallback errorCallback = new ErrorListener();
-	private gameRenderer gRenderer;
+	public gameRenderer gRenderer;
 	public gameWindow(idleWar _theGame) {
 		theGame = _theGame;
 		new Thread("Running"){
@@ -46,9 +46,6 @@ public class gameWindow {
 		glfwMakeContextCurrent(mainWindow);
 		glfwShowWindow(mainWindow);
 		GLContext.createFromCurrent();
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-
 		glEnable(GL_TEXTURE_2D);
 		gRenderer = new gameRenderer(theGame);
 		theGame.textureLoader.loadAllTextures();

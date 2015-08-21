@@ -1,11 +1,6 @@
 package it.gocode.idlewar;
 
-import java.nio.IntBuffer;
 import java.util.Map.Entry;
-
-import org.lwjgl.BufferUtils;
-import org.lwjgl.opengl.GL;
-import org.lwjgl.opengl.GLContext;
 
 import it.gocode.idlewar.buildings.Building;
 import it.gocode.idlewar.data.Location;
@@ -19,9 +14,6 @@ import it.gocode.idlewar.listeners.gameMouseListener;
 import it.gocode.idlewar.renderer.gameWindow;
 import it.gocode.idlewar.units.Unit;
 
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.system.MemoryUtil.*;
 
 /***
  * 

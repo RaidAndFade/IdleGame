@@ -33,6 +33,7 @@ import java.nio.ByteBuffer;
 import java.util.Arrays;
 import javax.imageio.ImageIO;
 import org.lwjgl.BufferUtils;
+import org.lwjgl.opengl.GL11;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL13.GL_CLAMP_TO_BORDER;
@@ -72,10 +73,14 @@ public class Texture {
 
         glBindTexture(GL_TEXTURE_2D, id);
 
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+        glAlphaFunc(GL_GREATER,0.1f);
+
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
     }
@@ -124,6 +129,7 @@ public class Texture {
             InputStream in = new FileInputStream(path);
             image = ImageIO.read(in);
         } catch (IOException ex) {
+        	ex.printStackTrace();
             throw new RuntimeException("Failed to load a texture file!"
                     + System.lineSeparator() + ex.getMessage());
         }
@@ -161,9 +167,12 @@ public class Texture {
             }
             /* Do not forget to flip the buffer! */
             buffer.flip();
-
             return new Texture(width, height, buffer);
         } else {
+        	System.out.println("File extension not supported!"
+                    + System.lineSeparator() + "The following file extensions "
+                    + "are supported: "
+                    + Arrays.toString(ImageIO.getReaderFileSuffixes()));
             throw new RuntimeException("File extension not supported!"
                     + System.lineSeparator() + "The following file extensions "
                     + "are supported: "

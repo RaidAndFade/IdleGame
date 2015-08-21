@@ -27,7 +27,7 @@ public class gameMap {
 		mapName=_mapName;
 	}
 	public void genMap(int width,int height){
-		width/=10;height/=10;
+		width/=20;height/=20;
 		genGround(width,height);
 		genDebris(width,height);
 	}
